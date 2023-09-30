@@ -1,0 +1,59 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace ="com.example.repo.SqlMapper">
+
+<select id="getName" resultType="String">
+	select user_name from dummy.users where mobile_number='12345' ;
+</select>
+
+<select id="getPassword"  parameterType="String" resultType="String">
+	select password from dummy.users where user_name=#{userName} ;
+</select>
+
+<select id="getUser" parameterType="String" resultMap="userMap">
+	select user_name,
+	email,mobile_number
+    from dummy.users where user_name=#{userName};
+</select>
+
+ <resultMap id="userMap" type="User">
+	 <result property="userName" column="user_name"/>
+	 <result property="emailId" column="email"/>
+	 <result property="mobileNumber" column="mobile_number"/>
+ </resultMap>
+ 
+ <insert id ="insertUser" parameterType="User">
+	 INSERT into dummy.users (user_name,password,email,mobile_number)
+	          values (#{userName},#{password},#{emailId},#{mobileNumber});
+ </insert>
+ 
+ <select id="checkUser" parameterType="String" resultType="int">
+	SELECT COUNT(*) 
+    FROM dummy.users
+    WHERE user_name = #{userName};
+</select>
+
+<select id="getClients" parameterType="String" resultMap="clientMap">
+	select cl_name,cl_mobile,cl_amount,cl_date from dummy.clients 
+	where cl_user =#{user};
+</select>
+<resultMap id="clientMap" type="Client">
+	<result property="clName" column="cl_name"/>
+	<result property="clMobile" column="cl_mobile"/>
+	<result property="clAmount" column="cl_amount"/>
+</resultMap>
+
+ <insert id ="insertClient" parameterType="Client">
+	insert into dummy.clients (cl_name,cl_mobile,cl_amount,cl_date,cl_user) 
+	values (#{clName},#{clMobile},#{clAmount},CURDATE(),#{user});
+ </insert>
+ 
+ <delete id="deleteClient" parameterType="map">
+    DELETE FROM dummy.clients
+    WHERE cl_name = #{clName} and cl_user = #{user};
+</delete>
+
+
+</mapper>
