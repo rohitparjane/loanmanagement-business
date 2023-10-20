@@ -11,6 +11,6 @@ public interface UserService {
 
 	public String insertUser(User user) throws ServiceException;
 
-	public boolean login(User user) throws ServiceException;
+
 
 }

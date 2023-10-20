@@ -47,24 +47,5 @@ public class UserServiceImpl implements UserService {
 		}
 		return status;
 	}
-	@Override
-	public boolean login(User user) throws ServiceException {
-		boolean login=false;
-		int count;
-		String pass;
-		try {
-		count = sqlMapper.checkUser(user.userName);
-		if(count==0)
-			throw new ServiceException(user.userName);
-		System.out.println("Check at 37s");
-		pass=sqlMapper.getPassword(user.userName);
-		if(pass.equals(user.password)) {
-			System.out.println("Login success");
-			login = true;}
-	}
-		catch(Exception e) {
-			log.error("Unable to login",e.getMessage());
-	}
-		return login;
-   }
+	
 }

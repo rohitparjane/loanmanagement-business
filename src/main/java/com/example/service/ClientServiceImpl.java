@@ -3,6 +3,10 @@ package com.example.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +14,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.exception.ServiceException;
 import com.example.model.Client;
+import com.example.model.History;
+import com.example.model.Payment;
 import com.example.model.User;
 import com.example.repo.SqlMapper;
+import com.example.utils.JwtUtil;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -20,6 +27,11 @@ public class ClientServiceImpl implements ClientService {
 	
 	@Autowired
 	SqlMapper sqlMapper;
+	@Autowired
+	private JwtUtil jwtUtil;
+	
+	@Autowired
+	SqlSessionFactory sessionFactory;
 	
 	@Override
 	public List<Client> getClients(String user){
@@ -55,9 +67,73 @@ public class ClientServiceImpl implements ClientService {
 	public void deleteClient(String clName,String user) throws Exception{
 		 try {
 			 sqlMapper.deleteClient(clName, user);
+			 sqlMapper.deleteAllEntries(clName+"_"+user);
 		 }catch(Exception e) {
 			 log.error("Client Deletion Failed", e.getMessage());
 		 }
 	}
+
+	@Override
+	public Payment getHistory(String clName,HttpServletRequest request) throws Exception {
+		 List<History> history =new ArrayList();
+		 Payment payment =new Payment();
+		try {
+			 String bearer=request.getHeader("Authorization").substring(7);
+			 String userName=jwtUtil.extractUsername(bearer);
+			 history = sqlMapper.getHistory(clName+"_"+userName);
+			
+			 Double tAmount = sqlMapper.getAmount(userName, clName);
+			 
+			 payment.setEntries(history);
+			 payment.setTotalAmount(tAmount);
+			
+			 System.out.println(history);
+		 }catch(Exception e) {
+			 log.error("Failed to load Payment History", e.getMessage());
+			
+		}
+		return payment;
+	}
+
+	@Override
+	public void insertEntry(String clName,Double amount,HttpServletRequest request) throws Exception {
+		 
+		try {
+			String bearer=request.getHeader("Authorization").substring(7);
+			  String userName=jwtUtil.extractUsername(bearer);
+			 sqlMapper.insertEntry(clName+"_"+userName,amount);
+			 sqlMapper.updateAmount(clName, amount);
+			 
+		}
+		catch(Exception e) {
+			log.error("Failed to insert Entry", e.getMessage());
+			//throw new exception
+		}
+		
+	}
+
+	@Override
+	public void deleteEntry(int srNo,String clName,Double amount) {
+			SqlSession sqlSession= sessionFactory.openSession();
+			SqlMapper mapper = sqlSession.getMapper(SqlMapper.class);
+			amount = -amount;
+		try {
+			mapper.deleteEntry(srNo);
+			mapper.updateAmount(clName, amount);
+			sqlSession.commit();
+		}catch(Exception e) {
+			sqlSession.rollback();
+			log.error("Failed to delete Entry", e.getMessage());
+		}
+		finally {
+			sqlSession.clearCache();
+			sqlSession.close();
+		}
+	}
+	
+	
+	
+	
+	
 
 }

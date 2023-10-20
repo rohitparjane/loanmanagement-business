@@ -36,23 +36,60 @@
 </select>
 
 <select id="getClients" parameterType="String" resultMap="clientMap">
-	select cl_name,cl_mobile,cl_amount,cl_date from dummy.clients 
+	select cl_name,cl_mobile,cl_amount,cl_date,cl_address from dummy.clients 
 	where cl_user =#{user};
 </select>
 <resultMap id="clientMap" type="Client">
 	<result property="clName" column="cl_name"/>
 	<result property="clMobile" column="cl_mobile"/>
+	<result property="clAddress" column="cl_address"/>
 	<result property="clAmount" column="cl_amount"/>
 </resultMap>
 
  <insert id ="insertClient" parameterType="Client">
-	insert into dummy.clients (cl_name,cl_mobile,cl_amount,cl_date,cl_user) 
-	values (#{clName},#{clMobile},#{clAmount},CURDATE(),#{user});
+	insert into dummy.clients (cl_name,cl_mobile,cl_address,cl_amount,cl_date,cl_user) 
+	values (#{clName},#{clMobile},#{clAddress},'0',CURDATE(),#{user});
  </insert>
  
  <delete id="deleteClient" parameterType="map">
     DELETE FROM dummy.clients
     WHERE cl_name = #{clName} and cl_user = #{user};
+</delete>
+
+ <update id="updateAmount" parameterType="map">
+	UPDATE dummy.clients
+   SET cl_amount = cl_amount + #{clAmount}
+   WHERE cl_name=#{clName};
+ </update>
+
+<select id="getHistory" parameterType="String" resultMap="historyMap">
+	 select sr_no,hi_amount, hi_date,hi_interest from dummy.history
+	 where  cl_user=#{clUser};
+</select>
+<resultMap id="historyMap" type="History">
+	 <result property="hiAmount" column="hi_amount"/>
+	 <result property="hiDate" column="hi_date"/>
+	 <result property="hiInterest" column="hi_interest"/>
+	 <result property="srNo" column="sr_no"/>
+</resultMap>
+
+<insert id ="insertEntry" parameterType="map">
+	insert into dummy.history (cl_user,hi_amount,hi_date,hi_interest) 
+	values (#{clUser},#{hiAmount},CURRENT_TIMESTAMP,'0');
+ </insert>
+ 
+ <select id="getAmount" parameterType="String" resultType="Double">
+	select cl_amount from dummy.clients 
+	where cl_user =#{clUser} and cl_name=#{clName};
+</select>
+
+<delete id="deleteEntry" parameterType="map">
+    DELETE FROM dummy.history
+    WHERE sr_no =#{srNo};
+</delete>
+<delete id="deleteAllEntries" parameterType="map">
+    DELETE FROM dummy.history
+    WHERE cl_user=#{clUser};
 </delete>
 
 

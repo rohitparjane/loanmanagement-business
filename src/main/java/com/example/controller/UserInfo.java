@@ -23,7 +23,7 @@ public class UserInfo {
     
     @GetMapping(value="/Hi")
 	public String home(){
-		
+		System.out.println("hello");
 		return "hello";
 		
 	}
@@ -58,12 +58,6 @@ public class UserInfo {
 	//	return "Success";
 	}
 	
-	@PostMapping(value="/login")
-	public boolean login( @RequestBody User user) throws ServiceException {
-		System.out.println("Login"+user);
-		boolean login = false;
-		login = userService.login(user);
-		return login;
-	}
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.config;
+package com.example.Filters;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -29,9 +29,9 @@ public class CorsFilter implements Filter {
         // Set CORS headers to allow requests from a specific origin
         httpResponse.setHeader("Access-Control-Allow-Origin", "*");
         httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-        httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-
+        
         chain.doFilter(request, response);
     }
 

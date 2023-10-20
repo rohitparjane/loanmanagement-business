@@ -2,9 +2,13 @@ package com.example.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 
 import com.example.model.Client;
+import com.example.model.History;
+import com.example.model.Payment;
 
 public interface ClientService {
 
@@ -13,4 +17,10 @@ public interface ClientService {
 		public String insertClient(Client client) throws Exception;
 
 		void deleteClient(String clName, String user) throws Exception;
+		
+		public Payment getHistory(String clUser, HttpServletRequest request) throws Exception;
+		
+		void insertEntry(String clName, Double amount,HttpServletRequest request) throws Exception;
+
+		public void deleteEntry(int srNo,String clName,Double amount)throws Exception;
 }

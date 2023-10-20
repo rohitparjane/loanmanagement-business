@@ -9,6 +9,15 @@ public class Client {
 		private String clAmount;
 		private Date date;
 		private String user;
+		private String clAddress;
+		
+	
+		public String getClAddress() {
+			return clAddress;
+		}
+		public void setClAddress(String clAddress) {
+			this.clAddress = clAddress;
+		}
 		public String getClName() {
 			return clName;
 		}
