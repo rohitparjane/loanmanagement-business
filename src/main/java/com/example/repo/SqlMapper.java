@@ -31,4 +31,10 @@ public interface SqlMapper {
     
     void deleteEntry(@Param("srNo") int srNo);
     void deleteAllEntries(@Param("clUser") String clUser);
+    
+    void generateOtp(@Param("emailId") String emailId, @Param("otp") int otp);
+    Integer validateOtp(@Param ("emailId") String emailId);
+    
+    void updateOtpStatus(@Param("emailId") String emailId, @Param("otp") int otp);
+    
 }

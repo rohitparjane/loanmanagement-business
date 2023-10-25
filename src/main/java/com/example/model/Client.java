@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Client {
@@ -7,7 +8,7 @@ public class Client {
 		private String clName;
 		private String clMobile;
 		private String clAmount;
-		private Date date;
+		private LocalDateTime date;
 		private String user;
 		private String clAddress;
 		
@@ -36,10 +37,10 @@ public class Client {
 		public void setClAmount(String clAmount) {
 			this.clAmount = clAmount;
 		}
-		public Date getDate() {
+		public LocalDateTime getDate() {
 			return date;
 		}
-		public void setDate(Date date) {
+		public void setDate(LocalDateTime date) {
 			this.date = date;
 		}
 		public String getUser() {

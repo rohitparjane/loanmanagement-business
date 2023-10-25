@@ -36,19 +36,20 @@
 </select>
 
 <select id="getClients" parameterType="String" resultMap="clientMap">
-	select cl_name,cl_mobile,cl_amount,cl_date,cl_address from dummy.clients 
-	where cl_user =#{user};
+	select cl_name,cl_mobile,cl_amount,cl_date,cl_address,cl_date from dummy.clients 
+	where cl_user =#{user} ORDER BY cl_date DESC;
 </select>
 <resultMap id="clientMap" type="Client">
 	<result property="clName" column="cl_name"/>
 	<result property="clMobile" column="cl_mobile"/>
 	<result property="clAddress" column="cl_address"/>
 	<result property="clAmount" column="cl_amount"/>
+	<result property="date" column="cl_date"/>
 </resultMap>
 
  <insert id ="insertClient" parameterType="Client">
 	insert into dummy.clients (cl_name,cl_mobile,cl_address,cl_amount,cl_date,cl_user) 
-	values (#{clName},#{clMobile},#{clAddress},'0',CURDATE(),#{user});
+	values (#{clName},#{clMobile},#{clAddress},'0',CURRENT_TIMESTAMP,#{user});
  </insert>
  
  <delete id="deleteClient" parameterType="map">
@@ -64,7 +65,7 @@
 
 <select id="getHistory" parameterType="String" resultMap="historyMap">
 	 select sr_no,hi_amount, hi_date,hi_interest from dummy.history
-	 where  cl_user=#{clUser};
+	 where  cl_user=#{clUser} ORDER BY hi_date DESC;
 </select>
 <resultMap id="historyMap" type="History">
 	 <result property="hiAmount" column="hi_amount"/>
@@ -91,6 +92,27 @@
     DELETE FROM dummy.history
     WHERE cl_user=#{clUser};
 </delete>
+
+<insert id ="generateOtp" parameterType="map">
+	insert into dummy.otpvalid (email_id,otp,otp_date,otp_status)
+	values (#{emailId},#{otp},CURRENT_TIMESTAMP,'F');
+ </insert>
+ 
+ <select id="validateOtp" resultType="Integer">
+    SELECT otp 
+    FROM dummy.otpvalid 
+    WHERE email_id = #{emailId} 
+    AND otp_date >= DATE_SUB(NOW(), INTERVAL 2 MINUTE)
+    ORDER BY otp_date DESC 
+    LIMIT 1;
+</select>
+
+<update id="updateOtpStatus" parameterType="map">
+	UPDATE dummy.otpvalid
+   SET otp_status = 'Y'
+   WHERE otp=#{otp} and email_id=#{emailId};
+ </update>
+
 
 
 </mapper>

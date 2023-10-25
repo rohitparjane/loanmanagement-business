@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.exception.ServiceException;
+import com.example.model.EmailObj;
 import com.example.model.User;
 import com.example.service.UserService;
 //import com.example.service.UserServiceImpl;
@@ -58,6 +60,36 @@ public class UserInfo {
 	//	return "Success";
 	}
 	
+	
+	@PostMapping(value="/mail")
+	public void sendMail( @RequestBody EmailObj mailObj ) throws Exception{
+		System.out.println("mail controller");
+		
+		
+		if(mailObj.getEmail()!=null) {
+			
+		  userService.sendMail(mailObj);
+		  
+		}else {
+		System.out.println("error....");
+		}
+	}
+	
+	@PostMapping(value="/sendOtp")
+	public void sendOtp(@RequestParam String email) throws Exception {
+		
+		if(!email.equals("")) {
+			userService.sendOtp(email);
+		}
+	}
+	
+	@GetMapping(value="/validate")
+	public ResponseEntity<Boolean> validateOtp(@RequestParam String email ,@RequestParam int otp) throws Exception{
+		Boolean status;
+		
+		status=userService.validateOtp(email,otp);
 
-
+	
+	return new ResponseEntity<>(status,HttpStatus.OK);
+	}
 }
