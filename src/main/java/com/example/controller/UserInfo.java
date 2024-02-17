@@ -23,7 +23,7 @@ public class UserInfo {
     @Autowired
 	UserService userService;
     
-    @GetMapping(value="/Hi")
+    @GetMapping(value="/hi")
 	public String home(){
 		System.out.println("hello");
 		return "hello";

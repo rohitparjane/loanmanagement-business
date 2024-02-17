@@ -36,7 +36,7 @@ public class ClientController {
 			 System.out.println("User null");
 		   
 		 clients = clientService.getClients(user);
-		 
+		 System.out.println(clients);
 		 return clients;
 	 }
 	 
@@ -76,11 +76,12 @@ public class ClientController {
 			  throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Client Not Empty");
 			 	System.out.print(client);
 			 	payment = clientService.getHistory(client,request);
-				if(!payment.getEntries().isEmpty()) {
-					return new ResponseEntity<>(payment,HttpStatus.OK);
-				}else {
-				return new ResponseEntity<>(payment,HttpStatus.NO_CONTENT);
-			}
+//				if(!payment.getEntries().isEmpty()) {
+//					return new ResponseEntity<>(payment,HttpStatus.OK);
+//				}else {
+//				return new ResponseEntity<>(payment,HttpStatus.NO_CONTENT);
+//			}
+			 	return new ResponseEntity<>(payment,HttpStatus.OK); 	
 			
 	 }
 	

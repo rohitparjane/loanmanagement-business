@@ -1,5 +1,7 @@
 package com.example.repo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -36,5 +38,6 @@ public interface SqlMapper {
     Integer validateOtp(@Param ("emailId") String emailId);
     
     void updateOtpStatus(@Param("emailId") String emailId, @Param("otp") int otp);
+    List<Client> gerReminderDetails(@Param("date") LocalDate date);
     
 }

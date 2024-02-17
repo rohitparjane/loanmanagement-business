@@ -98,17 +98,17 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public void insertEntry(String clName,Double amount,HttpServletRequest request) throws Exception {
 		 
-		try {
+	//	try {
 			String bearer=request.getHeader("Authorization").substring(7);
 			  String userName=jwtUtil.extractUsername(bearer);
 			 sqlMapper.insertEntry(clName+"_"+userName,amount);
 			 sqlMapper.updateAmount(clName, amount);
 			 
-		}
-		catch(Exception e) {
-			log.error("Failed to insert Entry", e.getMessage());
+	//	}
+		//catch(Exception e) {
+	//		log.error("Failed to insert Entry", e.getMessage());
 			//throw new exception
-		}
+	//	}
 		
 	}
 

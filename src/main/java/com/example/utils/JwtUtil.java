@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JwtUtil {
-    private static final String SECRET_KEY = "YourSecretKey"; // Replace with your own secret key
+    private static final String SECRET_KEY = "MotherFucker"; // Replace with your own secret key
     private static final long EXPIRATION_TIME = 60*60*1000; // 24 hours (in milliseconds)
 
     public  String generateToken(UserDetails userDetails) {

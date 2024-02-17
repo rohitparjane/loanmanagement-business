@@ -9,10 +9,31 @@ public class Client {
 		private String clMobile;
 		private String clAmount;
 		private LocalDateTime date;
-		private String user;
+		private String clUser;
 		private String clAddress;
+		private LocalDateTime clReminderDate;
+		private String clEmail;
 		
 	
+		
+		public String getClUser() {
+			return clUser;
+		}
+		public void setClUser(String clUser) {
+			this.clUser = clUser;
+		}
+		public LocalDateTime getClReminderDate() {
+			return clReminderDate;
+		}
+		public void setClReminderDate(LocalDateTime clReminderDate) {
+			this.clReminderDate = clReminderDate;
+		}
+		public String getClEmail() {
+			return clEmail;
+		}
+		public void setClEmail(String clEmail) {
+			this.clEmail = clEmail;
+		}
 		public String getClAddress() {
 			return clAddress;
 		}
@@ -44,15 +65,15 @@ public class Client {
 			this.date = date;
 		}
 		public String getUser() {
-			return user;
+			return clUser;
 		}
 		public void setUser(String user) {
-			this.user = user;
+			this.clUser = user;
 		}
 		@Override
 		public String toString() {
 			return "Client [clName=" + clName + ", clMobile=" + clMobile + ", clAmount=" + clAmount + ", date=" + date
-					+ ", user=" + user + "]";
+					+ ", user=" + clUser + "]";
 		}
 		
 		
