@@ -1,5 +1,6 @@
 package com.example.repo;
 
+import java.util.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +29,8 @@ public interface SqlMapper {
     List<History> getHistory(@Param("clUser") String clUser);
     void insertEntry(@Param("clUser") String clUser, @Param("hiAmount") Double clAmount);
     
-    void updateAmount(@Param("clName") String clName, @Param("clAmount") Double clAmount);
+    void updateAmount(@Param("clName") String clName, @Param("clAmount") Double clAmount,
+    					@Param("clUser") String clUser);
     Double getAmount(@Param("clUser") String clUser, @Param("clName") String clName);
     
     void deleteEntry(@Param("srNo") int srNo);
@@ -39,5 +41,8 @@ public interface SqlMapper {
     
     void updateOtpStatus(@Param("emailId") String emailId, @Param("otp") int otp);
     List<Client> gerReminderDetails(@Param("date") LocalDate date);
+    
+    void updatReminderDate(@Param ("clUser") String clUser, @Param("clName") String clName,
+    						@Param ("reminderDate")LocalDateTime reminderDate);
     
 }

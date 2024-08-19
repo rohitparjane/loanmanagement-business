@@ -63,7 +63,7 @@
  <update id="updateAmount" parameterType="map">
 	UPDATE dummy.clients
    SET cl_amount = cl_amount + #{clAmount}
-   WHERE cl_name=#{clName};
+   WHERE cl_name=#{clName} and cl_user=#{clUser};
  </update>
 
 <select id="getHistory" parameterType="String" resultMap="historyMap">
@@ -128,4 +128,9 @@
 	<result property="clUser" column="cl_user"/>
 </resultMap>
 
+<update id="updateReminderDate" parameterType="map">
+	UPDATE dummy.cients
+   SET cl_reminder_date = #{reminderDate}
+   WHERE cl_name=#{clName} and cl_user=#{clUser};
+ </update>
 </mapper>

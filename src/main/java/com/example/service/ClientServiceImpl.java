@@ -1,6 +1,8 @@
 package com.example.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -102,7 +104,7 @@ public class ClientServiceImpl implements ClientService {
 			String bearer=request.getHeader("Authorization").substring(7);
 			  String userName=jwtUtil.extractUsername(bearer);
 			 sqlMapper.insertEntry(clName+"_"+userName,amount);
-			 sqlMapper.updateAmount(clName, amount);
+			 sqlMapper.updateAmount(clName, amount,userName);
 			 
 	//	}
 		//catch(Exception e) {
@@ -113,13 +115,13 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	public void deleteEntry(int srNo,String clName,Double amount) {
+	public void deleteEntry(int srNo,String clName,Double amount, String clUser) {
 			SqlSession sqlSession= sessionFactory.openSession();
 			SqlMapper mapper = sqlSession.getMapper(SqlMapper.class);
 			amount = -amount;
 		try {
 			mapper.deleteEntry(srNo);
-			mapper.updateAmount(clName, amount);
+			mapper.updateAmount(clName, amount, clUser);
 			sqlSession.commit();
 		}catch(Exception e) {
 			sqlSession.rollback();
@@ -131,8 +133,15 @@ public class ClientServiceImpl implements ClientService {
 		}
 	}
 	
-	
-	
+	@Override
+	public void saveReminderDate(String clUser,String clName,LocalDateTime date) {
+		 
+		try {
+			sqlMapper.updatReminderDate(clUser,clName,date);
+		}catch(Exception e) {
+			log.error("Failed to update date", e.getMessage());
+		}
+	}
 	
 	
 

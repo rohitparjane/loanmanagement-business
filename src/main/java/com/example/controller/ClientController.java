@@ -1,6 +1,9 @@
 package com.example.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -94,15 +98,29 @@ public class ClientController {
 	}
 	
 	@DeleteMapping(value="/deleteEntry")
-	public void deleteEntry(@RequestParam int srNo,@RequestParam String clName,@RequestParam Double amount) throws Exception{
+	public void deleteEntry(@RequestParam int srNo,@RequestParam String clName,@RequestParam Double amount,
+							@RequestParam String clUser) throws Exception{
 		 System.out.print(srNo);  
 		if(srNo!=0) {
-			  clientService.deleteEntry(srNo,clName,amount);
+			  clientService.deleteEntry(srNo,clName,amount,clUser);
 		  }
 		  else {
 			  throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No record");
 		  }
 	}
+		
+		@PutMapping(value="/setDate/{clName}/{clUser}/{date}")
+		public void saveReminderDate(@PathVariable String clName, @PathVariable String clUser,
+									 @PathVariable Date date) throws Exception {
+			System.out.println("in update date"+clName+clUser+date);
+//			SimpleDateFormat date1 =new SimpleDateFormat("yyyy-MM-dd");
+//			Date date2 = date1.parse(date);
+//			System.out.println(date+date2);
+			//clientService.saveReminderDate(clUser, clName, date);
+			
+			
+		}
+	
 	
 	
 }

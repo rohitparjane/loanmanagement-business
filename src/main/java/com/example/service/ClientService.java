@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,5 +24,9 @@ public interface ClientService {
 		
 		void insertEntry(String clName, Double amount,HttpServletRequest request) throws Exception;
 
-		public void deleteEntry(int srNo,String clName,Double amount)throws Exception;
+		public void deleteEntry(int srNo,String clName,Double amount,String clUser)throws Exception;
+
+		void saveReminderDate(String clUser, String clName, LocalDateTime date);
+		
+		
 }
