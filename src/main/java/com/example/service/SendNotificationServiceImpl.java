@@ -3,6 +3,7 @@ package com.example.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,13 +35,18 @@ public class SendNotificationServiceImpl {
 			try {
 				System.out.println(today);
 			clients = sqlMapper.gerReminderDetails(today);
+			System.out.println(clients);
+			
+			clients = clients.stream().filter(client-> client.getClReminderDate().equals(today))
+					.collect(Collectors.toList());
+			
 			for(Client client :clients) {
 				System.out.println(client);
 			  emailObj.setEmail(client.getClEmail());
 			  emailObj.setSubject("Payment reminder");
 			  String body = String.format("Hi %s,\n\n"+"Your payment of %s is still pending. make your payment"
 			  						+"your Due Date is %s. \n\n"+"Thank You \n%s",client.getClName(),
-			  						client.getClAmount(),today,client.getUser());
+			  						client.getClAmount(),client.getClReminderDate(),client.getUser());
 			  emailObj.setBody(body);
 			  
 			  emailUtil.sendMail(emailObj);

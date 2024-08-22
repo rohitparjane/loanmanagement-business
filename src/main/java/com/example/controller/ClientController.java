@@ -1,7 +1,9 @@
 package com.example.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -111,12 +113,14 @@ public class ClientController {
 		
 		@PutMapping(value="/setDate/{clName}/{clUser}/{date}")
 		public void saveReminderDate(@PathVariable String clName, @PathVariable String clUser,
-									 @PathVariable Date date) throws Exception {
+									 @PathVariable String date) throws Exception {
 			System.out.println("in update date"+clName+clUser+date);
-//			SimpleDateFormat date1 =new SimpleDateFormat("yyyy-MM-dd");
-//			Date date2 = date1.parse(date);
-//			System.out.println(date+date2);
-			//clientService.saveReminderDate(clUser, clName, date);
+//			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//			LocalDateTime localDateTime = LocalDateTime.parse(date, formatter);
+//            LocalDate updateDate = localDateTime.toLocalDate();
+            LocalDate updateDate = LocalDate.parse(date);
+			System.out.println(date+updateDate);
+			clientService.saveReminderDate(clUser, clName, updateDate);
 			
 			
 		}

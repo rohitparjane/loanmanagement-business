@@ -42,7 +42,7 @@ public interface SqlMapper {
     void updateOtpStatus(@Param("emailId") String emailId, @Param("otp") int otp);
     List<Client> gerReminderDetails(@Param("date") LocalDate date);
     
-    void updatReminderDate(@Param ("clUser") String clUser, @Param("clName") String clName,
-    						@Param ("reminderDate")LocalDateTime reminderDate);
+    void updateReminderDate(@Param ("clUser") String clUser, @Param("clName") String clName,
+    						@Param ("reminderDate")LocalDate reminderDate);
     
 }

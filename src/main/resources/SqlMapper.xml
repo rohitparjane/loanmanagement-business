@@ -36,7 +36,7 @@
 </select>
 
 <select id="getClients" parameterType="String" resultMap="clientMap">
-	select cl_name,cl_mobile,cl_amount,cl_date,cl_address,cl_reminder_date from dummy.clients 
+	select cl_name,cl_mobile,cl_amount,cl_date,cl_address,cl_reminder_date,cl_email from dummy.clients 
 	where cl_user =#{user} ORDER BY cl_date DESC;
 </select>
 <resultMap id="clientMap" type="Client">
@@ -46,6 +46,7 @@
 	<result property="clAmount" column="cl_amount"/>
 	<result property="date" column="cl_date"/>
 	<result property="clReminderDate" column="cl_reminder_date"/>
+	<result property="clEmail" column="cl_email"></result>
 </resultMap>
 
  <insert id ="insertClient" parameterType="Client">
@@ -117,8 +118,8 @@
  </update>
 
 <select id="gerReminderDetails" parameterType="java.time.LocalDate" resultMap="reminderMap">
-	select cl_name,cl_mobile,cl_amount,cl_email,cl_user from dummy.clients 
-	where cl_reminder_date &lt;  #{date} ;
+	select cl_name,cl_mobile,cl_amount,cl_email,cl_user,cl_reminder_date from dummy.clients 
+	where cl_reminder_date &lt;= #{date} ;
 </select>
 <resultMap id="reminderMap" type="Client">
 	<result property="clName" column="cl_name"/>
@@ -126,10 +127,11 @@
 	<result property="clEmail" column="cl_email"/>
 	<result property="clAmount" column="cl_amount"/>
 	<result property="clUser" column="cl_user"/>
+	<result property="clReminderDate" column="cl_reminder_date"/>
 </resultMap>
 
 <update id="updateReminderDate" parameterType="map">
-	UPDATE dummy.cients
+	UPDATE dummy.clients
    SET cl_reminder_date = #{reminderDate}
    WHERE cl_name=#{clName} and cl_user=#{clUser};
  </update>

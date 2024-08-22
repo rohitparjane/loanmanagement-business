@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ public class Client {
 		private LocalDateTime date;
 		private String clUser;
 		private String clAddress;
-		private LocalDateTime clReminderDate;
+		private LocalDate clReminderDate;
 		private String clEmail;
 		
 	
@@ -22,10 +23,10 @@ public class Client {
 		public void setClUser(String clUser) {
 			this.clUser = clUser;
 		}
-		public LocalDateTime getClReminderDate() {
+		public LocalDate getClReminderDate() {
 			return clReminderDate;
 		}
-		public void setClReminderDate(LocalDateTime clReminderDate) {
+		public void setClReminderDate(LocalDate clReminderDate) {
 			this.clReminderDate = clReminderDate;
 		}
 		public String getClEmail() {
@@ -72,7 +73,8 @@ public class Client {
 		}
 		@Override
 		public String toString() {
-			return "Client [clName=" + clName + ", clMobile=" + clMobile + ", clAmount=" + clAmount + ", date=" + date
+			return "Client [clName=" + clName + ", clMobile=" + clMobile + ", clAmount=" + clAmount + ", "
+					+ "reminder date=" + clReminderDate
 					+ ", user=" + clUser + "]";
 		}
 		

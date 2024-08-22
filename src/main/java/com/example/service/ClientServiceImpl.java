@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -134,13 +135,11 @@ public class ClientServiceImpl implements ClientService {
 	}
 	
 	@Override
-	public void saveReminderDate(String clUser,String clName,LocalDateTime date) {
+	public void saveReminderDate(String clUser,String clName,LocalDate date) {
 		 
-		try {
-			sqlMapper.updatReminderDate(clUser,clName,date);
-		}catch(Exception e) {
-			log.error("Failed to update date", e.getMessage());
-		}
+		
+			sqlMapper.updateReminderDate(clUser,clName,date);
+		
 	}
 	
 	
